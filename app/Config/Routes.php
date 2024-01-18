@@ -104,11 +104,16 @@ $routes->get('compras/eliminar/(:num)', 'compras::eliminar/$1');
 $routes->get('compras/eliminados', 'compras::eliminados');
 $routes->get('compras/reingresar/(:num)', 'compras::reingresar/$1');
 
+
+
+
 // Ruta para el método buscarPorCodigo con el método get
 $routes->get('productos/buscarPorCodigo/(:num)', 'productos::buscarPorCodigo/$1');
-
-// Ruta para el método insertar con el método post y parámetros dinámicos
-//$routes->post('temporalCompra/inserta', 'temporalCompra::inserta');
+//compras 
+$routes->post('temporalCompra/insertar/(:num)/(:num)/(:alphanum)', 'TemporalCompra::insertar/$1/$2/$3');
+$routes->delete('temporalCompra/eliminar/(:num)/(:alphanum)', 'TemporalCompra::eliminar/$1/$2');
+//guarda detalles de la compra
+$routes->post('compras/guarda', 'compras::guarda');
 
 
 

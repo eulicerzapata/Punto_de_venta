@@ -1,31 +1,28 @@
 <?php
 $id_compra = uniqid();
 ?>
-
 <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
 
 <div id="layoutSidenav_content">
     <main>
         <div class="container-fluid px-4">
 
-
-            <form method="POST" action="<?php echo base_url(); ?>/compras/guarda" autocomplete="off">
+            <form name="form_compra" id="form_compra" method="POST" action="<?php echo base_url(); ?>compras/guarda/"  autocomplete="off">
 
                 <div class="form-group">
                     <div class="row">
                         <div class="col-12 col-sm-4 mb-3">
                             <input type="hidden" id="id_producto" name="id_producto" />
+                            <input type="hidden" id="id_compra" name="id_compra"
+                             value="<?php echo $id_compra; ?>" />
                             <label for="nombre">Codigo</label>
-
                             <input class="form-control" id="codigo" name="codigo" type="text" placeholder="Escribe el codigo y  enter" onkeyup="buscarProducto(event, this, this.value)" autofocus>
                             <label for="codigo" id="resultado_error" style="color: red"></label>
                         </div>
-
                         <div class="col-12 col-sm-4 mb-3">
                             <label for="nombre">Nombre del producto </label>
                             <input class="form-control" id="nombre" name="nombre" type="text" disabled>
                         </div>
-
                         <div class="col-12 col-sm-4 mb-3">
                             <label for="cantidad">Cantidad</label>
                             <input class="form-control" id="cantidad" name="cantidad" type="text" autofocus>
@@ -39,18 +36,15 @@ $id_compra = uniqid();
                             <label for="precio_compra">Precio de compra</label>
                             <input class="form-control" id="precio_compra" name="precio_compra" type="text" disabled>
                         </div>
-
                         <div class="col-12 col-sm-4 mb-3">
                             <label for="Subtotal">Subtotal</label>
                             <input class="form-control" id="Subtotal" name="Subtotal" type="text" disabled>
                         </div>
-
-                        <div class="col-12 col-sm-4 mb-3">
+                        <div class="col-12 col-sm-4 ">
                             <label><br>&nbsp;</label>
-                            <button id="agregar_producto" name="agregar_producto" type="button" 
-                            class="btn btn-primary" onclick="agregarProducto(id_producto.value, cantidad.value,
-                             '<?php echo $id_compra; ?>' )" 
-                            >Agregar Producto</button>
+                            <button id="agregar_producto" name="agregar_producto" type="button" class="btn btn-primary" onclick="agregarProducto(id_producto.value, cantidad.value,
+                             '<?php echo $id_compra; ?>' )">
+                                Agregar Producto</button>
                         </div>
                     </div>
                 </div>
@@ -90,7 +84,15 @@ $id_compra = uniqid();
 
     <script>
         $(document).ready(function() {
+            $("#completa_compra").click(function(){
+                let nFila = $("#tablaProductos tr").length;
 
+                if (nFila<2) {
+                    
+                }else{
+                    $("#form_compra").submit();
+                }
+            });
         });
 
         function buscarProducto(e, tagCodigo, codigo) {
@@ -134,42 +136,64 @@ $id_compra = uniqid();
         function agregarProducto(id_producto, cantidad, id_compra) {
 
 
-            if (id_producto != null && id_producto !=0 && cantidad > 0) {
+            if (id_producto != null && id_producto != 0 && cantidad > 0) {
                 $.ajax({
-                    url: '<?php echo base_url(); ?>TemporalCompra/inserta/'+ id_producto + "/" +
+                    url: '<?php echo base_url(); ?>temporalCompra/insertar/' + id_producto + "/" +
                         cantidad + "/" + id_compra,
+                    method: 'POST',
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest'
+                    },
 
                     success: function(resultado) {
                         if (resultado == 0) {
 
                         } else {
-                            /*
 
-                            $("#resultado_error").html(resultado.error);
+                            var resultado = JSON.parse(resultado);
 
-                            if (resultado.existe) {
-                                $("#id_producto").val(resultado.datos.id);
-                                $("#nombre").val(resultado.datos.nombre);
-                                $("#cantidad").val(1);
-                                $("#precio_compra").val(resultado.datos.precio_compra);
-                                $("#Subtotal").val(resultado.datos.precio_compra);
-                                $("#cantidad").focus();
-                            } else {
+                            if (resultado.error == '') {
+                                $("#tablaProductos tbody").empty();
+                                $("#tablaProductos tbody").append(resultado.datos);
+                                $("#total").val(resultado.total);
                                 $("#id_producto").val('');
                                 $("#nombre").val('');
+                                $("#codigo").val('');
                                 $("#cantidad").val('');
                                 $("#precio_compra").val('');
                                 $("#Subtotal").val('');
-
-                            } */
+                            }
                         }
                     }
                 });
             }
         }
 
+        function eliminaProducto(id_producto, id_compra) {
         
+                    $.ajax({
+                        url: '<?php echo base_url(); ?> temporalCompra/eliminar/' + id_producto + 
+                        "/" + id_compra ,
+                        method: 'DELETE',
+                        headers: {
+                        'X-Requested-With': 'XMLHttpRequest'
+                    },
+                        success: function(resultado) {
+                            if (resultado == 0) {
+                                $(tagCodigo).val('');
+                            } else {
+                                var resultado = JSON.parse(resultado);
 
+                                $("#tablaProductos tbody").empty();
+                                $("#tablaProductos tbody").append(resultado.datos);
+                                $("#total").val(resultado.total);
+
+
+                            }
+                        }
+                    })
+                }
+            
     </script>
 
 
