@@ -8,32 +8,34 @@ use App\Models\ComprasModel;
 use App\Models\TemporalCompraModel;
 use App\Models\DetalleComprasModel;
 use App\Models\ProductosModel;
+use App\models\ConfiguracionModel;
 
 
 
 class Compras extends BaseController
 {
-    protected $compras, $temporal_compra, $detalle_compra, $productos;
+    protected $compras, $temporal_compra, $detalle_compra, $productos, $configuracion ;
     protected $reglas;
 
    public function __construct()
     {
         $this->compras = new ComprasModel();
         $this->detalle_compra = new DetalleComprasModel();
+        $this->configuracion = new configuracionModel();
         helper(['form']);
 
     
     }
-     /*
 
     public function index($activo = 1)
     {
-        $unidades = $this->unidades->where('activo', $activo)->findAll();
-        $data = ['titulo' => 'unidades', 'datos' => $unidades];
+        $compras = $this->compras->where('activo', $activo)->findAll();
+        $data = ['titulo' => 'Compras','compras'=>$compras ];
         echo view('header');
-        echo view('unidades/unidades', $data);
+        echo view('compras/compras', $data);
         echo view('footer');
-    } */
+    }
+
 
     public function nuevo()
     {
@@ -46,7 +48,7 @@ class Compras extends BaseController
     {
 
         $id_compra= $this-> request-> getPost('id_compra');
-        $total= $this-> request-> getPost('total');
+        $total= preg_replace('/[\$,]/','', $this-> request-> getPost('total'));
 
         $session = session();
         
@@ -73,69 +75,82 @@ class Compras extends BaseController
             }
             $this->temporal_compra->eliminarCompra($id_compra);
         }
-        return redirect()->to(base_url()."/productos");
+        return redirect()->to(base_url()."/compras/muestraCompraPdf/" .$resultadoId);
 
     }
 
-    /*public function insertar()
-    {
-
-        if ($this->request->getMethod() == "post" && $this->validate($this->reglas)) {
-
-
-
-            $this->unidades->save([
-                'nombre' => $this->request->getPost('nombre'),
-                'nombre_corto' => $this->request->getPost('nombre_corto')
-            ]);
-            return redirect()->to(base_url() . 'unidades')->with('mensaje', 'unidad agregada con exito');
-        } else {
-            $data = ['titulo' => 'Agregar Unidad', 'validation' => $this->validator];
-            echo view('header');
-            echo view('unidades/nuevo', $data);
-            echo view('footer');
-        }
-    }
-
-
-    public function editar($id)
-    {
-        $unidad = $this->unidades->where('id', $id)->first();
-        $data = ['titulo' => 'editar Unidad', 'datos' => $unidad];
-
+    function muestraCompraPdf($id_compra){
+        $data['id_compra']= $id_compra;
         echo view('header');
-        echo view('unidades/editar', $data);
+        echo view('compras/ver_compra_pdf', $data);
         echo view('footer');
+
     }
 
-    public function actualizar()
-    {
-        $this->unidades->update($this->request->getPost('id'), [
-            'nombre' => $this->request->getPost('nombre'),
-            'nombre_corto' => $this->request->getPost('nombre_corto')
-        ]);
+    function generaCompraPdf($id_compra){
         
-        return redirect()->to(base_url() . 'unidades')->with('mensaje', 'unidad agregada con exito');
-    }
+        $datosCompra= $this->compras->where('id', $id_compra)-> first();
+        
+        $detalle_compra= $this->detalle_compra->select('*')->where('id_compra', $id_compra)
+        ->findAll();
+        
+        $nombreTienda= $this->configuracion->select('valor')->where('nombre','tienda_nombre')
+        ->get()->getRow()->valor;
 
-    public function eliminar($id)
-    {
-        $this->unidades->update($id, ['activo' => 0]);
-        return redirect()->to(base_url() . 'unidades')->with('mensaje', 'unidad agregada con exito');
-    }
+        $direccionTienda= $this->configuracion->select('valor')->where('nombre','tienda_direccion')
+        ->get()->getRow()->valor;
 
-    public function eliminados($activo = 0)
-    {
-        $unidades = $this->unidades->where('activo', $activo)->findAll();
-        $data = ['titulo' => 'unidades eliminadas', 'datos' => $unidades];
-        echo view('header');
-        echo view('unidades/eliminados', $data);
-        echo view('footer');
-    }
+        
+        
+        $pdf = new \FPDF('P', 'mm', 'A4');
+        $pdf->AddPage();
+        $pdf->SetMargins(10,10,10);
+        $pdf->SetTitle("compra");
+        $pdf->SetFont('Arial', 'B', 10);
 
-    public function reingresar($id)
-    {
-        $this->unidades->update($id, ['activo' => 1]);
-        return redirect()->to(base_url() . 'unidades')->with('mensaje', 'unidad agregada con exito');
-    } */
+        $pdf->Cell(195,5, "entrada de productos", 0, 1, 'C');
+        $pdf->SetFont('Arial', 'B', 9);
+
+       // $pdf->image(base_url(). '/images/logos.png', 185,10,25,20,'PNG');
+       $pdf->Cell(50,5, $nombreTienda, 0, 1, 'L');
+       $pdf->Cell(50,5, utf8_decode('Dirección: '). $direccionTienda, 0, 1, 'L');
+
+       $pdf->Cell(50,5, 'Fecha y hora: '. $datosCompra['fecha_alta'], 0, 1, 'L');
+
+       $pdf->Ln();
+       $pdf->SetFont('Arial', 'B', 8);
+       $pdf->SetFillColor(0,0,0);
+       $pdf->SetTextColor(255,255,255);
+       $pdf->Cell(196, 5, 'detalle de productos',1,1, 'c', 1);
+       $pdf->SetTextColor(0,0,0);
+       $pdf->Cell(15, 5,'No', 1, 0, 'L');
+       $pdf->Cell(25, 5,'Codigo', 1, 0, 'L');
+       $pdf->Cell(77, 5,'Nombre', 1, 0, 'L');
+       $pdf->Cell(25, 5,'precio', 1, 0, 'L');
+       $pdf->Cell(24, 5,'Cantidad', 1, 0, 'L');
+       $pdf->Cell(30, 5,'Importe', 1, 1, 'L');
+
+       $contador = 1; 
+       
+       foreach($detalle_compra as $row){
+        $pdf->Cell(15, 5,$contador, 1, 0, 'L');
+        $pdf->Cell(25, 5,$row['id_producto'], 1, 0, 'L');
+        $pdf->Cell(77, 5,$row['nombre'], 1, 0, 'L');
+        $pdf->Cell(25, 5,$row['precio'], 1, 0, 'L');
+        $pdf->Cell(24, 5,$row['cantidad'], 1, 0, 'L');
+        $importe=number_format( $row['precio'] * $row['cantidad'],2,'.',',' );
+        $pdf->Cell(30, 5,'$'. $importe, 1, 1, 'R');
+        $contador++;
+
+       }
+       $pdf->Ln();
+       $pdf->SetFont('Arial', 'B', 8);
+       $pdf->cell(195, 5, 'total $'. number_format( $datosCompra['total'],2, '.', ','),0,1,'R' );
+
+
+        $this->response->setHeader('content-type','application/pdf');
+        $pdf->Output("compra_pdf.pdf", "I");
+
+       
+    }
 }

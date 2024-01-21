@@ -5,8 +5,7 @@
             <ol class="breadcrumb mb-4">
                 <div>
                     <p>
-                        <a href="<?php echo base_url(); ?>unidades/nuevo" class="btn btn-info">Nuevo</a>
-                        <a href="<?php echo base_url(); ?>unidades/eliminados" class="btn btn-warning">Eliminados</a>
+                        <a href="<?php echo base_url(); ?>compras/eliminados" class="btn btn-warning">Eliminados</a>
                     </p>
                 </div>
             </ol>
@@ -18,30 +17,26 @@
                         <thead>
                             <tr>
                                 <th>id</th>
-                                <th>nombre</th>
-                                <th>nombre corto</th>
-                                <th></th>
+                                <th>folio</th>
+                                <th>total</th>
+                                <th>Fecha</th>
                                 <th></th>
 
                             </tr>
                         </thead>
 
                         <tbody>
-                            <?php foreach ($datos as $dato) { ?>
+                            <?php foreach ($compras as $compra) { ?>
                                 <tr>
-                                    <td><?php echo $dato['id']; ?></td>
-                                    <td><?php echo $dato['nombre']; ?></td>
-                                    <td><?php echo $dato['nombre_corto']; ?></td>
+                                    <td><?php echo $compra['id']; ?></td>
+                                    <td><?php echo $compra['folio']; ?></td>
+                                    <td><?php echo $compra['total']; ?></td>
+                                    <td><?php echo $compra['fecha_alta']; ?></td>
 
                                     <td><a href="<?php echo base_url() .
-                                     'unidades/editar/' .$dato['id']; ?>"
-                                      class="btn btn-warning">
-                                      <i class="fa-regular fa-pen-to-square"></i>
-                                        </a> </td>
-
-                                    <td><a  data-href="<?php echo base_url() . 'unidades/eliminar/' .
-                                     $dato['id']; ?>" data-bs-toggle="modal" data-bs-target="#modal-confirma"
-                                     data-placement="top" title="Eliminar Registro" class="btn btn-danger"><i class="fa-solid fa-trash"></i>
+                                     'compras/muestraCompraPdf/' .$compra['id']; ?>"
+                                      class="btn btn-primary">
+                                      <i class="fas fa-file-alt"></i>
                                         </a> </td>
 
                                 </tr>

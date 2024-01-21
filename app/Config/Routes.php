@@ -115,5 +115,5 @@ $routes->delete('temporalCompra/eliminar/(:num)/(:alphanum)', 'TemporalCompra::e
 //guarda detalles de la compra
 $routes->post('compras/guarda', 'compras::guarda');
 
-
-
+$routes->get('compras/muestraCompraPdf/(:num)', 'compras::muestraCompraPdf/$1');
+$routes->get('compras/generaCompraPdf/(:num)', 'Compras::generaCompraPdf/$1');
