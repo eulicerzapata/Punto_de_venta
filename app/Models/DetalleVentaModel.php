@@ -1,11 +1,13 @@
-<?php 
+<?php
 
 namespace App\models;
+
 use CodeIgniter\Model;
 
-class ProductosModel extends Model { //crear modelo Unidades con codeIgniter 4 ?
+class DetalleVentaModel extends Model
+{ //crear modelo Unidades con codeIgniter 4 ?
 
-    protected $table      = 'productos';
+    protected $table      = 'detalle_venta';
     protected $primaryKey = 'id';
 
     protected $useAutoIncrement = true;
@@ -14,24 +16,19 @@ class ProductosModel extends Model { //crear modelo Unidades con codeIgniter 4 ?
     protected $useSoftDeletes = false;
 
     protected $allowedFields = [
-         'codigo',
-         'nombre',
-         'precio_venta',
-         'precio_compra',
-         'existencias',
-         'stock_minimo',
-         'inventariable',
-         'id_unidad',
-         'id_categoria',
-         'activo',
-        ];
+        'id_venta',
+        'id_producto',
+        'nombre',
+        'cantidad',
+        'precio',
+    ];
 
     // Dates
     protected $useTimestamps = true;
     protected $dateFormat    = 'datetime';
     protected $createdField  = 'fecha_alta';
     protected $updatedField  = '';
-    protected $deletedField  = 'deleted_at';
+    protected $deletedField  = '';
 
     // Validation
     protected $validationRules      = [];
@@ -50,12 +47,6 @@ class ProductosModel extends Model { //crear modelo Unidades con codeIgniter 4 ?
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
-    public function actualizaStock($id_producto, $cantidad, $operador= '+'){
-        $this-> set('existencias',"existencias $operador $cantidad", FALSE);
-        $this -> where("id",$id_producto);
-         $this->update();
-    }
-
+   
+    
 }
-
-?>

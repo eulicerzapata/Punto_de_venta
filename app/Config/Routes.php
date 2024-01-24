@@ -35,6 +35,7 @@ $routes->post('productos/actualizar', 'productos::actualizar');
 $routes->get('productos/eliminar/(:num)', 'productos::eliminar/$1');
 $routes->get('productos/eliminados', 'productos::eliminados');
 $routes->get('productos/reingresar/(:num)', 'productos::reingresar/$1');
+$routes->get('/productos/autocompleteData', 'productos::autocompleteData');
 
 //Clientes
 $routes->get('/clientes', 'clientes::index');
@@ -45,6 +46,8 @@ $routes->post('clientes/actualizar', 'clientes::actualizar');
 $routes->get('clientes/eliminar/(:num)', 'clientes::eliminar/$1');
 $routes->get('clientes/eliminados', 'clientes::eliminados');
 $routes->get('clientes/reingresar/(:num)', 'clientes::reingresar/$1');
+$routes->get('/clientes/autocompleteData', 'Clientes::autocompleteData');
+
 
 //Configuracion
 $routes->get('/configuracion', 'configuracion::index');
@@ -103,6 +106,8 @@ $routes->post('compras/actualizar', 'compras::actualizar');
 $routes->get('compras/eliminar/(:num)', 'compras::eliminar/$1');
 $routes->get('compras/eliminados', 'compras::eliminados');
 $routes->get('compras/reingresar/(:num)', 'compras::reingresar/$1');
+//guarda detalles de la compra
+$routes->post('compras/guarda', 'compras::guarda');
 
 
 
@@ -112,8 +117,14 @@ $routes->get('productos/buscarPorCodigo/(:num)', 'productos::buscarPorCodigo/$1'
 //compras 
 $routes->post('temporalCompra/insertar/(:num)/(:num)/(:alphanum)', 'TemporalCompra::insertar/$1/$2/$3');
 $routes->delete('temporalCompra/eliminar/(:num)/(:alphanum)', 'TemporalCompra::eliminar/$1/$2');
-//guarda detalles de la compra
-$routes->post('compras/guarda', 'compras::guarda');
+
 
 $routes->get('compras/muestraCompraPdf/(:num)', 'compras::muestraCompraPdf/$1');
 $routes->get('compras/generaCompraPdf/(:num)', 'Compras::generaCompraPdf/$1');
+
+
+//ventas
+$routes->get('ventas/venta', 'ventas::venta');
+$routes->post('ventas/guarda', 'ventas::guarda');
+$routes->get('ventas/muestraTicket/(:num)', 'ventas::muestraTicket/$1');
+$routes->get('ventas/generaTicket/(:num)', 'ventas::generaTicket/$1');

@@ -72,7 +72,7 @@ protected $PDFVersion;         // PDF version number
 *                               Public methods                                 *
 *******************************************************************************/
 
-function __construct($orientation='P', $unit='mm', $size='A4')
+function __construct($orientation='P', $unit='mm', $size='A5')
 {
 	// Initialization of properties
 	$this->state = 0;
@@ -102,6 +102,8 @@ function __construct($orientation='P', $unit='mm', $size='A4')
 	$this->ws = 0;
 	$this->iconv = function_exists('iconv');
 	// Font path
+	
+
 	if(defined('FPDF_FONTPATH'))
 		$this->fontpath = FPDF_FONTPATH;
 	else

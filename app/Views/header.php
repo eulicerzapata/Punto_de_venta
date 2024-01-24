@@ -17,12 +17,28 @@ $user_sesion = session();
     <meta name="description" content="" />
     <meta name="author" content="" />
     <title>Punto de venta</title>
-    <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
+    <!-- Incluye el archivo de estilo de Simple DataTables -->
+    <link
+        href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css"
+        rel="stylesheet"
+    />
+    <!-- Incluye el archivo de estilo de tu proyecto -->
     <link href="<?php echo base_url(); ?>/css/styles.css" rel="stylesheet" />
-    <link href="https://use.fontawesome.com/releases/v6.3.0/css/all.css" rel="stylesheet" crossorigin="anonymous" />
-    <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
-
+    <!-- Incluye el archivo de estilo de Font Awesome -->
+    <link
+        href="https://use.fontawesome.com/releases/v6.3.0/css/all.css"
+        rel="stylesheet"
+        crossorigin="anonymous"
+    />
+    <!-- Incluye el archivo de jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- Incluye el archivo de jQuery UI -->
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+    <!-- Incluye el archivo de Bootstrap -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/js/bootstrap.min.js"></script>
 </head>
+
+
 
 <body class="sb-nav-fixed">
     <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
@@ -96,7 +112,7 @@ $user_sesion = session();
                             </nav>
                         </div>
 
-                        <a class="nav-link" href="tables.html">
+                        <a class="nav-link" href="<?php echo base_url(); ?>ventas/venta">
                             <div class="sb-nav-link-icon"><i class="fas fa-cash-register"></i></div>
                             Caja
                         </a>
