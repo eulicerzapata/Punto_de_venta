@@ -63,4 +63,23 @@ class VentasModel extends Model
 
         return $this-> insertID();
     }
+
+    public function obtener($activo=1){
+        $this->select('ventas.*, u.usuario AS cajero, c.nombre AS cliente');
+        $this->join('usuarios AS u', 'ventas.id_usuario = u.id');//iner join
+        $this->join('clientes AS c', 'ventas.id_cliente = c.id');
+
+        $this->where('ventas.activo', $activo);
+        $this->orderBy('ventas.fecha_alta', 'DESC');
+        $datos = $this->findAll();
+        //print_r($this->getLastQuery());
+        return $datos; 
+    }
+
+    public function totalDia($fecha){
+
+        $this->select("sum(total) AS total");
+        $where = "activo=1 AND DATE(fecha_alta)='$fecha'";
+        return $this->where($where)->first();
+    }
 }

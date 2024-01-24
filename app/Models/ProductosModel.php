@@ -56,6 +56,18 @@ class ProductosModel extends Model { //crear modelo Unidades con codeIgniter 4 ?
          $this->update();
     }
 
+    public function totalProductos(){
+        return $this->where('activo', 1)->countAllResults(); 
+    }
+
+    public function productosMinimo(){
+        $where = "stock_minimo >= existencias AND inventariable=1 AND activo=1";
+        $this->where($where);
+        $sql = $this->countAllResults();
+        return $sql;
+
+    }
+
 }
 
 ?>

@@ -24,8 +24,8 @@ class ConfiguracionModel extends Model { //crear modelo Unidades con codeIgniter
     // Dates
     protected $useTimestamps = true;
     protected $dateFormat    = 'datetime';
-    protected $createdField  = null;
-    protected $updatedField  = null;
+    protected $createdField  = '';
+    protected $updatedField  = '';
     protected $deletedField  = 'deleted_at';
 
     // Validation

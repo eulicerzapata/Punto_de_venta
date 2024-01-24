@@ -5,8 +5,10 @@ use CodeIgniter\Router\RouteCollection;
 /**
  * @var RouteCollection $routes
  */
+
+ $routes->get('inicio', 'inicio::index');
 //Unidades
-$routes->get('/unidades', 'Home::index');
+
 $routes->get('/unidades', 'Unidades::index');
 $routes->get('/unidades/nuevo', 'Unidades::nuevo'); // Ruta específica 
 $routes->post('unidades/insertar', 'Unidades::insertar');
@@ -125,6 +127,9 @@ $routes->get('compras/generaCompraPdf/(:num)', 'Compras::generaCompraPdf/$1');
 
 //ventas
 $routes->get('ventas/venta', 'ventas::venta');
+$routes->get('/ventas', 'ventas::index');
 $routes->post('ventas/guarda', 'ventas::guarda');
 $routes->get('ventas/muestraTicket/(:num)', 'ventas::muestraTicket/$1');
 $routes->get('ventas/generaTicket/(:num)', 'ventas::generaTicket/$1');
+$routes->get('ventas/eliminar/(:num)', 'ventas::eliminar/$1');
+$routes->get('ventas/eliminados', 'ventas::eliminados');

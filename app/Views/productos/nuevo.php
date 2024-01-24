@@ -5,14 +5,14 @@
 
             <?php if (isset($validation)) { ?>
                 <div class='alert alert-danger'>
-                <?php echo validation_list_errors(); ?>
+                    <?php echo validation_list_errors(); ?>
                 </div>
             <?php } ?>
 
-            
 
 
-            <form method="POST" action="<?php echo base_url(); ?>/productos/insertar" autocomplete="off">
+
+            <form method="POST" enctype="multipart/form-data" action="<?php echo base_url(); ?>/productos/insertar" autocomplete="off">
 
                 <div class="form-group">
                     <div class="row">
@@ -101,6 +101,20 @@
                         </div>
                     </div>
                 </div>
+                <!--  
+                <div class="form-group">
+                    <div class="row">
+                    <div class="col-12 col-sm-6 mb-3">
+                    <label for="img_producto">Imagen </label><br>
+                    
+                    <input type="file" id="img_producto" name="img_producto" accept="image/jpg"/>
+                    <p class="text-danger">cargar imagenes en formato png 150*150 </p>
+                    </div>
+
+                    </div>
+
+                </div>
+                -->
 
 
 
