@@ -39,6 +39,12 @@ $routes->get('productos/eliminados', 'productos::eliminados');
 $routes->get('productos/reingresar/(:num)', 'productos::reingresar/$1');
 $routes->get('/productos/autocompleteData', 'productos::autocompleteData');
 
+$routes->get('productos/generaBarras', 'productos::generaBarras');
+$routes->get('productos/muestraCodigos', 'productos::muestraCodigos');
+
+$routes->get('productos/generaMinimosPdf', 'productos::generaMinimosPdf');
+$routes->get('productos/mostrarMinimos', 'productos::mostrarMinimos');
+
 //Clientes
 $routes->get('/clientes', 'clientes::index');
 $routes->get('/clientes/nuevo', 'clientes::nuevo'); // Ruta 

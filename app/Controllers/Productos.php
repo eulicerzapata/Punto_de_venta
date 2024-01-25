@@ -216,4 +216,72 @@ class Productos extends BaseController
         }
         echo json_encode($returnData);
     }
+    public function generaBarras(){
+
+        $pdf = new \FPDF('P','mm','letter');
+        $pdf->AddPage();
+        $pdf->SetMargins(10,10,10);
+        $pdf->SetTitle("codigos de barras");
+
+        $productos = $this->productos->where('activo', 1)->findAll();
+        foreach ($productos as $producto) {
+            $codigo= $producto['codigo'];
+
+            $generaBarcode = new \barcode_genera();
+        $generaBarcode -> barcode("images/barcode/".$codigo .".png",$codigo,20,"horizontal","code128",true);
+
+        $pdf->Image("images/barcode/".$codigo .".png");
+        //unlink("images/barcode/".$codigo."png");
+        }
+
+        $this->response->setHeader('Content-type', 'application/pdf');
+        $pdf->Output('Codigos.pdf', 'I');
+        
+        
+    }
+    function muestraCodigos(){
+        
+        echo view('header');
+        echo view('productos/ver_codigos', );
+        echo view('footer');
+
+    }
+
+    public function generaMinimosPdf(){
+
+        $pdf = new \FPDF('P','mm','letter');
+        $pdf->AddPage();
+        $pdf->SetMargins(10,10,10);
+        $pdf->SetTitle("productos con stock minimo");
+        $pdf->SetFont("Arial", 'B', 10);
+        $pdf->Image("images/logotipo.png",10,5,20);
+        $pdf->Cell(0,5,utf8_decode("reporte de productos con stock minimo"), 0,1,'C');
+        $pdf->Ln(10);
+
+        $pdf->Cell(40,5, utf8_decode("codigo"),1,0,"C");
+        $pdf->Cell(70,5, utf8_decode("Nombre"),1,0,"C");
+        $pdf->Cell(40,5, utf8_decode("Existencias"),1,0,"C");
+        $pdf->Cell(40,5, utf8_decode("Stock Minimo"),1,1,"C");
+        
+        $datosProductos = $this->productos->getProductosMinimo();
+        foreach($datosProductos as $producto){
+            $pdf->Cell(40,5, $producto['codigo'],1,0,"C");
+        $pdf->Cell(70,5, $producto['nombre'],1,0,"C");
+        $pdf->Cell(40,5, $producto['existencias'],1,0,"C");
+        $pdf->Cell(40,5, $producto['stock_minimo'],1,1,"C");
+        
+        }
+
+        $this->response->setHeader('Content-type', 'application/pdf');
+        $pdf->Output('ProductoMinimo.pdf', 'I');
+        
+        
+    }
+    function mostrarMinimos(){
+        
+        echo view('header');
+        echo view('productos/ver_minimos', );
+        echo view('footer');
+
+    }
 }

@@ -68,6 +68,11 @@ class ProductosModel extends Model { //crear modelo Unidades con codeIgniter 4 ?
 
     }
 
+    public function getProductosMinimo(){
+        $where = "stock_minimo >= existencias AND inventariable=1 AND activo=1";
+        return $this->where($where)->findAll();
+    }
+
 }
 
 ?>

@@ -7,6 +7,7 @@
                     <p>
                         <a href="<?php echo base_url(); ?>productos/nuevo" class="btn btn-info">Nuevo</a>
                         <a href="<?php echo base_url(); ?>productos/eliminados" class="btn btn-warning">Eliminados</a>
+                        <a href="<?php echo base_url(); ?>productos/muestraCodigos" class="btn btn-primary">códigos de barras</a>
                     </p>
                 </div>
             </ol>

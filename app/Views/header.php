@@ -1,11 +1,6 @@
 <?php
 $user_sesion = session();
-
-
 ?>
-
-
-
 
 <!DOCTYPE html>
 <html lang="es">
@@ -18,18 +13,11 @@ $user_sesion = session();
     <meta name="author" content="" />
     <title>Punto de venta</title>
     <!-- Incluye el archivo de estilo de Simple DataTables -->
-    <link
-        href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css"
-        rel="stylesheet"
-    />
+    <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
     <!-- Incluye el archivo de estilo de tu proyecto -->
     <link href="<?php echo base_url(); ?>/css/styles.css" rel="stylesheet" />
     <!-- Incluye el archivo de estilo de Font Awesome -->
-    <link
-        href="https://use.fontawesome.com/releases/v6.3.0/css/all.css"
-        rel="stylesheet"
-        crossorigin="anonymous"
-    />
+    <link href="https://use.fontawesome.com/releases/v6.3.0/css/all.css" rel="stylesheet" crossorigin="anonymous" />
     <!-- Incluye el archivo de jQuery -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <!-- Incluye el archivo de jQuery UI -->
@@ -48,9 +36,9 @@ $user_sesion = session();
         <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>
         <!-- Navbar Search-->
         <div class="d-none d-md-inline-block  ms-auto me-0 me-md-3 my-2 my-md-0">
-                <!-- Navbar Search -->
+            <!-- Navbar Search -->
             <a class="navbar-brand ps-3" href="<?php echo base_url() ?>inicio">punto de venta</a>
-                
+
         </div>
         <!-- Navbar-->
         <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
@@ -108,7 +96,7 @@ $user_sesion = session();
                             <nav class="sb-sidenav-menu-nested nav">
                                 <a class="nav-link" href="<?php echo base_url(); ?>compras/nuevo">Nueva compra</a>
                                 <a class="nav-link" href="<?php echo base_url(); ?>compras">Compras</a>
-                                
+
                             </nav>
                         </div>
 
@@ -120,6 +108,7 @@ $user_sesion = session();
                             <div class="sb-nav-link-icon"><i class="fas fa-shopping-cart"></i></div>
                             Ventas
                         </a>
+
                         <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseReportes" aria-expanded="false" aria-controls="collapseReportes">
                             <div class="sb-nav-link-icon"><i class="fas fa-chart-pie"></i></div>
                             Reportes
@@ -127,10 +116,11 @@ $user_sesion = session();
                         </a>
                         <div class="collapse" id="collapseReportes" aria-labelledby="headingReportes" data-bs-parent="#sidenavAccordion">
                             <nav class="sb-sidenav-menu-nested nav">
-                                <a class="nav-link" href="layout-static.html">Reportes de ventas</a>
-                                <a class="nav-link" href="layout-sidenav-light.html">Reportes de Mínimos</a>
+                                <a class="nav-link" href="<?php echo base_url(); ?>">Reportes de ventas</a>
+                                <a class="nav-link" href="<?php echo base_url(); ?>productos/mostrarMinimos">Reportes de Mínimos</a>
                             </nav>
                         </div>
+
                         <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseAdministracion" aria-expanded="false" aria-controls="collapseAdministracion">
                             <div class="sb-nav-link-icon"><i class="fas fa-user-shield"></i></div>
                             Administración
