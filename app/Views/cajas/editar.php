@@ -13,7 +13,7 @@
 
 
 
-                <input type="hidden" id="id" name="id" value="<?php echo $datos['id']; ?> " />
+                <input type="hidden" id="id" name="id" value="<?php echo $datos['id']; ?>" />
 
 
                 <div class="form-group">

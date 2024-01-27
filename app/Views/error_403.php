@@ -46,7 +46,7 @@
             <div class="container">
                 <div class="card">
                     <div class="card-body">
-                        <h1 class="card-title"><i class="fas fa-lock"></i> Error: 403</h1>
+                        <h1 class="card-title"><i class="fas fa-lock"></i> Sin acceso</h1>
                         <p class="card-text">No tiene permiso para acceder a esta página.</p>
                         <a href="<?= base_url() ?>inicio" class="card-link">Volver al inicio</a>
                     </div>

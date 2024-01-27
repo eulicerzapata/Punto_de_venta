@@ -23,6 +23,7 @@
                                 <th>folio</th>
                                 <th></th>
                                 <th></th>
+                                <th></th>
 
                             </tr>
                         </thead>
@@ -34,6 +35,12 @@
                                     <td><?php echo $dato['numero_caja']; ?></td>
                                     <td><?php echo $dato['nombre']; ?></td>
                                     <td><?php echo $dato['folio']; ?></td>
+
+                                    <td><a href="<?php echo base_url() .
+                                     'cajas/arqueo/' .$dato['id']; ?>"
+                                      class="btn btn-primary">
+                                      <i class="fas fa-clipboard-list"></i>
+                                        </a> </td>
                                     
 
                                     <td><a href="<?php echo base_url() .
