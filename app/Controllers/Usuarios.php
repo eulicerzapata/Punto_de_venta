@@ -7,11 +7,12 @@ use App\Controllers\BaseController;
 use App\Models\UsuariosModel;
 use App\Models\CajasModel;
 use App\Models\RolesModel;
+use App\Models\LogsModel;
 
 
 class Usuarios extends BaseController
 {
-    protected $usuarios, $cajas, $roles;
+    protected $usuarios, $cajas, $roles, $logs;
     protected $reglas, $reglaslogin, $reglascambia;
 
     public function __construct()
@@ -19,6 +20,7 @@ class Usuarios extends BaseController
         $this->usuarios = new UsuariosModel();
         $this->cajas = new CajasModel();
         $this->roles = new RolesModel();
+        $this->logs = new LogsModel();
 
         helper(['form']);
         $this->reglas = [
@@ -233,6 +235,20 @@ class Usuarios extends BaseController
                         'id_rol' => $datosusuario['id_rol'],
                     ];
 
+                    $ip=$_SERVER['REMOTE_ADDR'];
+                    $detalles = $_SERVER['HTTP_USER_AGENT'];
+
+
+                    $this->logs->save([
+
+                        'id_usuario'=>$datosusuario['id'],
+                        'evento'=>'Inicio de sesion',
+                        
+                        'ip'=>$ip,
+                        'detalles'=>$detalles,
+
+                    ]);
+
                     $session = session();
                     $session->set($datosSesion);
 
@@ -256,6 +272,21 @@ class Usuarios extends BaseController
     {
 
         $session = session();
+
+        $ip=$_SERVER['REMOTE_ADDR'];
+                    $detalles = $_SERVER['HTTP_USER_AGENT'];
+
+
+                    $this->logs->save([
+
+                        'id_usuario'=>$session->id_usuario,
+                        'evento'=>'cierre de sesion',
+                        
+                        'ip'=>$ip,
+                        'detalles'=>$detalles,
+
+                    ]);
+
         $session->destroy();
         return redirect()->to(base_url());
     }

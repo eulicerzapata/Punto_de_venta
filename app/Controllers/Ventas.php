@@ -9,13 +9,14 @@ use App\Models\TemporalCompraModel;
 use App\Models\DetalleVentaModel;
 use App\Models\ProductosModel;
 use App\models\ConfiguracionModel;
+use App\models\CajasModel;
 
 
 
 
 class Ventas extends BaseController
 {
-    protected $ventas, $temporal_compra, $detalle_venta, $productos, $configuracion;
+    protected $ventas, $temporal_compra, $detalle_venta, $productos, $configuracion, $cajas;
     
    public function __construct()
     {
@@ -23,6 +24,7 @@ class Ventas extends BaseController
         $this->detalle_venta = new DetalleVentaModel();
         $this->productos = new ProductosModel();
         $this->configuracion = new configuracionModel();
+        $this->cajas = new CajasModel();
         
         helper(['form']);
 
@@ -56,14 +58,19 @@ class Ventas extends BaseController
         $id_cliente= $this-> request-> getPost('id_cliente');
 
         $session = session();
+        $caja = $this->cajas->where('id', $session->id_caja)->first();
+        $folio = $caja['folio'];
         
 
-        $resultadoId =$this->ventas->insertaVenta($id_venta, $total,$session->id_usuario,
+        $resultadoId =$this->ventas->insertaVenta($folio, $total,$session->id_usuario,
         $session->id_caja, $id_cliente,$forma_pago);
 
         $this->temporal_compra = new TemporalCompraModel();
 
         if ($resultadoId) {
+            $folio++;
+            $this->cajas->update($session->id_caja,['folio' => $folio]);
+
             $resultadoCompra=$this->temporal_compra-> porCompra($id_venta);
             foreach ($resultadoCompra as $row){
                 $this->detalle_venta->save([

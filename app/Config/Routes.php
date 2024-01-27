@@ -103,6 +103,8 @@ $routes->post('roles/actualizar', 'roles::actualizar');
 $routes->get('roles/eliminar/(:num)', 'roles::eliminar/$1');
 $routes->get('roles/eliminados', 'roles::eliminados');
 $routes->get('roles/reingresar/(:num)', 'roles::reingresar/$1');
+$routes->get('roles/detalles/(:num)', 'roles::detalles/$1');
+$routes->post('roles/guardaPermisos', 'roles::guardaPermisos');
 
 //compras
 $routes->get('/compras', 'compras::index');

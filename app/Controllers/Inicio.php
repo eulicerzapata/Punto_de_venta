@@ -8,18 +8,21 @@ use App\models\VentasModel;
 
 class Inicio extends BaseController
 {
-    protected $productosModel;
+    protected $productosModel,$session;
     protected $ventasModel;
 
     public function __construct()
     {
         $this->ventasModel = new VentasModel();
         $this->productosModel = new ProductosModel();
+        $this->session = session();
     }
 
     public function index()
     {
-
+        if(!isset($this->session->id_usuario)){
+            return redirect()->to(base_url());
+        }
         $total = $this->productosModel->totalProductos();
         $minimos = $this->productosModel->productosMinimo();
         $totalVentas = $this->ventasModel->totalDia(date('y-m-d'));

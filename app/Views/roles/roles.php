@@ -22,6 +22,7 @@
                                     <th>nombre</th>
                                     <th></th>
                                     <th></th>
+                                    <th></th>
                                     
                                 </tr>
                             </thead>
@@ -43,6 +44,10 @@
                                      data-placement="top" title="eliminar Categoria" class="btn btn-danger"><i class="fa-solid fa-trash"></i>
                                         </a> </td>
 
+                                        <td><a  href="<?php echo base_url() . 'roles/detalles/' .
+                                     $dato['id']; ?>" 
+                                       class="btn btn-primary"><i class="fa-solid"></i>
+                                        Detalles</a> </td>
                                     
                                 </tr>
                                 <?php }?>

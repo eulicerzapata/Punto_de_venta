@@ -7,6 +7,7 @@ use App\Controllers\BaseController;
 use App\models\ProductosModel;
 use App\Models\UnidadesModel;
 use App\Models\CategoriasModel;
+use App\Models\DetallesRolesPermisosModel;
 
 
 class Productos extends BaseController
@@ -15,12 +16,16 @@ class Productos extends BaseController
     protected $unidades;
     protected $categorias;
     protected $reglas;
+    protected $detallesRoles, $session;
+    
 
     public function __construct()
     {
         $this->productos = new ProductosModel();
         $this->unidades = new UnidadesModel();
         $this->categorias = new CategoriasModel();
+        $this->detallesRoles = new DetallesRolesPermisosModel();
+        $this->session = Session();
 
 
 
@@ -46,6 +51,17 @@ class Productos extends BaseController
 
     public function index($activo = 1)
     {
+
+        $permiso= $this->detallesRoles->verificaPermisos($this->session->id_rol, 'ProductosCatalogo');
+
+        if(!$permiso){
+           // echo 'no tiene permiso';
+           echo view('header');
+            echo view('error_403');
+            echo view('footer');
+            exit;
+        }
+
         $productos = $this->productos->where('activo', $activo)->findAll();
         $data = ['titulo' => 'productos', 'datos' => $productos];
         echo view('header');
@@ -55,6 +71,8 @@ class Productos extends BaseController
 
     public function nuevo()
     {
+       
+
         $unidades = $this->unidades->where('activo', 1)->findAll();
         $categorias = $this->categorias->where('activo', 1)->findAll();
         $data = ['titulo' => 'Agregar Producto', 'unidades' => $unidades, 'categorias' => $categorias];
