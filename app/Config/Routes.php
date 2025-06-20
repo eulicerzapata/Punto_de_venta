@@ -131,6 +131,7 @@ $routes->post('compras/guarda', 'compras::guarda');
 // Ruta para el método buscarPorCodigo con el método get
 $routes->get('productos/buscarPorCodigo/(:num)', 'productos::buscarPorCodigo/$1');
 //compras 
+$routes->get('temporalCompra/insertar/(:num)/(:num)/(:segment)', 'TemporalCompra::insertar/$1/$2/$3');
 $routes->post('temporalCompra/insertar/(:num)/(:num)/(:alphanum)', 'TemporalCompra::insertar/$1/$2/$3');
 $routes->delete('temporalCompra/eliminar/(:num)/(:alphanum)', 'TemporalCompra::eliminar/$1/$2');
 

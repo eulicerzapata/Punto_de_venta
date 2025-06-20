@@ -52,15 +52,15 @@ class Productos extends BaseController
     public function index($activo = 1)
     {
 
-        $permiso= $this->detallesRoles->verificaPermisos($this->session->id_rol, 'ProductosCatalogo');
+        //$permiso= $this->detallesRoles->verificaPermisos($this->session->id_rol, 'ProductosCatalogo');
 
-        if(!$permiso){
-           // echo 'no tiene permiso';
-           echo view('header');
-            echo view('error_403');
-            echo view('footer');
-            exit;
-        }
+       // if(!$permiso){
+        //   // echo 'no tiene permiso';
+         //  echo view('header');
+         //   echo view('error_403');
+         //   echo view('footer');
+         //   exit;
+       // }
 
         $productos = $this->productos->where('activo', $activo)->findAll();
         $data = ['titulo' => 'productos', 'datos' => $productos];
